@@ -67,3 +67,22 @@ gulp.task('sass', function () {
         .pipe(concat('style.css'))
         .pipe(gulp.dest('./'));
 });
+
+// Live reload server settings
+gulp.task('serve', function(done) {
+    gulp.src('')
+        .pipe(server({
+            livereload: {
+                enable: true,
+                filter: function(filePath, cb) {
+                if (/main.js/.test(filePath)) {
+                    cb(true)
+                }
+                else if (/style.css/.test(filePath)) {
+                    cb(true)
+                }
+            }
+        },
+        open: true
+    }));
+});
