@@ -36,6 +36,17 @@ var Weather = React.createClass({
         }
     },
 
+    updateData: function() {
+        // Update the data for the UI
+        this.setState({
+            weather: citiesWeather[currentCity].weather[0].id,
+            temp: Math.round(citiesWeather[currentCity].main.temp - 273.15), // Kelvin to Celcius
+            humidity: Math.round(citiesWeather[currentCity].main.humidity),
+            wind: Math.round(citiesWeather[currentCity].wind.speed)
+        });
+    },
+
+
     render: function() {
 
         // Build class names with dynamic data
