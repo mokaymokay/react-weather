@@ -8,20 +8,21 @@ var cities = []; // Transforms query string cities into an array
 var citiesWeather = []; // API cache
 var currentCity = 0; // Index of current city displayed
 
-var Weather = React.createClass({
-
+class Weather extends React.Component {
     // Init data for UI
-    getInitialState: function() {
-    return {
-        weather: '',
-        temp: 0,
-        humidity: 0,
-        wind: 0
-    }
-    },
+    constructor() {
+        super();
+
+        this.state = {
+              weather: '',
+              temp: 0,
+              humidity: 0,
+              wind: 0
+            };
+        }
 
     // Called before the render method is executed
-    componentWillMount: function() {
+    componentWillMount() {
 
         // Get the query string data
         query = location.search.split('=')[1];
@@ -51,9 +52,9 @@ var Weather = React.createClass({
         }, (1000*60*5));
 
         this.fetchData();
-    },
+    }
 
-    fetchData: function() {
+    fetchData = () => {
 
         // Get the data from the cache if possible
         if (citiesWeather[currentCity]) {
@@ -67,9 +68,9 @@ var Weather = React.createClass({
                     this.updateData();
             }.bind(this));
         }
-    },
+    };
 
-    updateData: function() {
+    updateData = () => {
         // Update the data for the UI
         this.setState({
             weather: citiesWeather[currentCity].weather[0].id,
@@ -77,9 +78,9 @@ var Weather = React.createClass({
             humidity: Math.round(citiesWeather[currentCity].main.humidity),
             wind: Math.round(citiesWeather[currentCity].wind.speed)
         });
-    },
+    };
 
-    render: function() {
+    render() {
 
         // Build class names with dynamic data
         var weatherClass = classNames('wi wi-owm-' + this.state.weather);
@@ -87,19 +88,19 @@ var Weather = React.createClass({
 
         // Set the background color based on the temperature
         if (this.state.temp >= 30) {
-        bgColorClass += 'very-warm';
+          bgColorClass += 'very-warm';
         }
         else if (this.state.temp > 20 && this.state.temp < 30) {
-        bgColorClass += 'warm';
+          bgColorClass += 'warm';
         }
         else if (this.state.temp > 10 && this.state.temp < 20) {
-        bgColorClass += 'normal';
+          bgColorClass += 'normal';
         }
         else if (this.state.temp > 0 && this.state.temp < 10) {
-        bgColorClass += 'cold';
+          bgColorClass += 'cold';
         }
         else if (this.state.temp <= 0) {
-        bgColorClass += 'very-cold';
+          bgColorClass += 'very-cold';
         }
 
         // Render the DOM elements
@@ -111,11 +112,11 @@ var Weather = React.createClass({
             <section className="weather-details">
                 <div className="temp"><span className="temp-number">{this.state.temp}</span><span className="wi wi-degrees"></span></div>
                 <div className="humidity"><i className="wi wi-raindrop"></i>{this.state.humidity} %</div>
-                <div className="wind"><i className="wi wi-small-craft-advisory">{this.state.wind} <span className="vel">Km/h</span></div>
+                <div className="wind"><i className="wi wi-small-craft-advisory"></i>{this.state.wind} <span className="vel">Km/h</span></div>
             </section>
         </div>
     }
-});
+}
 
 // Assign the React component to a DOM element
 var element = React.createElement(Weather, {});
